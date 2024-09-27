@@ -36,7 +36,6 @@ namespace Microsoft.AspNetCore.StaticWebAssets.Tasks
         [Required]
         public string ManifestPath { get; set; }
 
-        [Required]
         public string ManifestCacheFilePath { get; set; }
 
         public override bool Execute()
