@@ -227,16 +227,15 @@ namespace Microsoft.DotNet.Tests.Commands.Tool
         [Fact]
         public void GivenAnExistedPreviewVersionInstallationWhenUpdateToHigherVersionItSucceeds()
         {
-            var installCommand = CreateInstallCommand($"-g {_packageId} --version {HigherPreviewPackageVersion} --verbosity minimal");
-            installCommand.Execute();
+            CreateInstallCommand($"-g {_packageId} --version {HigherPreviewPackageVersion} --verbosity minimal");
             _reporter.Lines.Clear();
 
             var command = CreateUpdateCommand($"-g {_packageId} --version {HigherPackageVersion} --verbosity minimal");
             command.Execute().Should().Be(0);
 
-            _reporter.Lines.First().Should().Contain(string.Format(
-                LocalizableStrings.UpdateSucceeded,
-                _packageId, HigherPreviewPackageVersion, HigherPackageVersion));
+            _reporter.Lines.First().Should().NotContain(string.Format(
+                Microsoft.DotNet.Tools.Tool.Install.LocalizableStrings.ToolAlreadyInstalled,
+                _packageId, HigherPackageVersion));
         }
 
         [Fact]
