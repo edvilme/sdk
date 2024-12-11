@@ -39,7 +39,7 @@ Copyright (c) .NET Foundation. All rights reserved.
       <_GeneratedFiles Include="$(PublishRuntimeConfigFilePath)"/>
       <_GeneratedFiles Include="$(_ToolsSettingsFilePath)"/>
     </ItemGroup>
-
+    <NETSdkError Condition=" '$(IsPublishable)' != 'true' " ResourceName="DotNetToolShouldBePublishable" />
     <ResolveToolPackagePaths
       AppHostIntermediatePath="$(AppHostIntermediatePath)"
       ResolvedFileToPublish="@(ResolvedFileToPublish)"

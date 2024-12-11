@@ -359,6 +359,11 @@
         <target state="translated">NETSDK1156: l'eseguibile '{0}' dell'host .NET non è stato trovato.</target>
         <note>{StrBegin="NETSDK1156: "}</note>
       </trans-unit>
+      <trans-unit id="DotNetToolShouldBePublishable">
+        <source>NETSDK1224: Tool needs to be publishable for packing.</source>
+        <target state="new">NETSDK1224: Tool needs to be publishable for packing.</target>
+        <note>{StrBegin="NETSDK1224: "}</note>
+      </trans-unit>
       <trans-unit id="DotnetToolDoesNotSupportTFMLowerThanNetcoreapp21">
         <source>NETSDK1055: DotnetTool does not support target framework lower than netcoreapp2.1.</source>
         <target state="translated">NETSDK1055: DotnetTool non supporta framework di destinazione di versioni precedenti a netcoreapp2.1.</target>

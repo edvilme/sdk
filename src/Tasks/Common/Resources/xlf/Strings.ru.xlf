@@ -359,6 +359,11 @@
         <target state="translated">NETSDK1156: исполняемый файл узла .NET "{0}" не найден.</target>
         <note>{StrBegin="NETSDK1156: "}</note>
       </trans-unit>
+      <trans-unit id="DotNetToolShouldBePublishable">
+        <source>NETSDK1224: Tool needs to be publishable for packing.</source>
+        <target state="new">NETSDK1224: Tool needs to be publishable for packing.</target>
+        <note>{StrBegin="NETSDK1224: "}</note>
+      </trans-unit>
       <trans-unit id="DotnetToolDoesNotSupportTFMLowerThanNetcoreapp21">
         <source>NETSDK1055: DotnetTool does not support target framework lower than netcoreapp2.1.</source>
         <target state="translated">NETSDK1055: DotnetTool не поддерживает целевые платформы версий до netcoreapp2.1.</target>
