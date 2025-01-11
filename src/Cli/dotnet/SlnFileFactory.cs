@@ -1,14 +1,16 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using Microsoft.DotNet.Cli.Sln.Internal;
 using Microsoft.DotNet.Cli.Utils;
+using Microsoft.VisualStudio.SolutionPersistence;
+using Microsoft.VisualStudio.SolutionPersistence.Model;
+using Microsoft.VisualStudio.SolutionPersistence.Serializer;
 
 namespace Microsoft.DotNet.Tools.Common
 {
     public static class SlnFileFactory
     {
-        public static SlnFile CreateFromFileOrDirectory(string fileOrDirectory)
+        public static SolutionModel CreateFromFileOrDirectory(string fileOrDirectory, bool includeSolutionXmlFiles = true)
         {
             if (File.Exists(fileOrDirectory))
             {
@@ -16,28 +18,30 @@ namespace Microsoft.DotNet.Tools.Common
             }
             else
             {
-                return FromDirectory(fileOrDirectory);
+                return FromDirectory(fileOrDirectory, includeSolutionXmlFiles);
             }
         }
 
-        private static SlnFile FromFile(string solutionPath)
+        private static SolutionModel FromFile(string solutionPath)
         {
-            SlnFile slnFile = null;
+            ISolutionSerializer serializer = SolutionSerializers.GetSerializerByMoniker(solutionPath)
+                ?? throw new GracefulException();
+            SolutionModel model;
             try
             {
-                slnFile = SlnFile.Read(solutionPath);
+                model = serializer.OpenAsync(solutionPath, CancellationToken.None).Result;
             }
-            catch (InvalidSolutionFormatException e)
+            catch (SolutionException e)
             {
                 throw new GracefulException(
                     CommonLocalizableStrings.InvalidSolutionFormatString,
                     solutionPath,
                     e.Message);
             }
-            return slnFile;
+            return model;
         }
 
-        private static SlnFile FromDirectory(string solutionDirectory)
+        private static SolutionModel FromDirectory(string solutionDirectory, bool includeSolutionXmlFiles = true)
         {
             DirectoryInfo dir;
             try
@@ -57,7 +61,11 @@ namespace Microsoft.DotNet.Tools.Common
                     solutionDirectory);
             }
 
-            FileInfo[] files = dir.GetFiles("*.sln");
+            FileInfo[] files = [
+                ..dir.GetFiles("*.sln"),
+                ..(includeSolutionXmlFiles ? dir.GetFiles("*.slnx") : Array.Empty<FileInfo>())
+            ];
+
             if (files.Length == 0)
             {
                 throw new GracefulException(
