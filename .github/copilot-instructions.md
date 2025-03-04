@@ -6,4 +6,10 @@ User-visible changes to behavior should be considered carefully before committin
 
 Large changes should always include test changes.
 
-When considering how output should look, solicit advice from baronfel.
+When considering how output should look, solicit advice from @baronfel.
+
+When using strings, prefer having them localized in .resx files
+
+Do not modify .xlf files, instead prompt the user to do so by running `/t:UpdateXlf` on MSBuild
+
+Avoid skipping tests unless specifying an issue within this repo as a reason. 
